@@ -48,7 +48,7 @@ def get_standings(competition):
             'points': cells[7].get_text(strip=True)
         })
 
-    return jsonify(standings)
+   return Response(json.dumps(standings, ensure_ascii=False), mimetype='application/json')
 
 if __name__ == '__main__':
     app.run(debug=True)

@@ -38,7 +38,7 @@ def get_standings(competition):
         teamname = teamname.encode('utf-8').decode('utf-8')
         standings.append({
             'league_position': cells[0].get_text(strip=True),
-            'team_name': teamname
+            'team_name': teamname,
             
             'played_matches': cells[2].get_text(strip=True),
             'wins': cells[3].get_text(strip=True),

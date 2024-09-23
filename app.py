@@ -33,13 +33,9 @@ def get_standings(competition):
     rows = soup.select('a.Standing_standings__rowGrid__45OOd')
     for row in rows:
         cells = row.select('div.Standing_standings__cell__5Kd0W')
-        
-        teamname =  row.select_one('p.Standing_standings__teamName__psv61').get_text(strip=True),
-        teamname = teamname.encode('utf-8').decode('utf-8')
         standings.append({
             'league_position': cells[0].get_text(strip=True),
-            'team_name': teamname,
-            
+            'team_name': row.select_one('p.Standing_standings__teamName__psv61').get_text(strip=True),
             'played_matches': cells[2].get_text(strip=True),
             'wins': cells[3].get_text(strip=True),
             'draws': cells[4].get_text(strip=True),
@@ -48,7 +44,7 @@ def get_standings(competition):
             'points': cells[7].get_text(strip=True)
         })
 
-   return Response(json.dumps(standings, ensure_ascii=False), mimetype='application/json')
+    return jsonify(standings)
 
 if __name__ == '__main__':
     app.run(debug=True)

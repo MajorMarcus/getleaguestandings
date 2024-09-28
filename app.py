@@ -19,7 +19,7 @@ def get_with_retries(url, max_retries=3, backoff_factor=0.5):
 
 @app.route('/standings/<competition>', methods=['GET'])
 def get_standings(competition):
-    url = f'https://onefootball.com/en/competition/{competition}/table'
+    url = f'https://onefootball.com/{competition}'
     
     try:
         response = get_with_retries(url)

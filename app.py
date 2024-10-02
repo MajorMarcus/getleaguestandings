@@ -6,6 +6,13 @@ import re
 
 app = Flask(__name__)
 
+def get_image_string(big_string):
+    # Extracts the image URL after 'image='
+    parts = big_string.split('image=', 1)
+    if len(parts) > 1:
+        return parts[1]
+    return None
+
 @app.route('/standings/<team>', methods=['GET'])
 def getstandings(team):
     url = f'https://onefootball.com/en/team/{team}'
@@ -32,6 +39,12 @@ def getstandings(team):
         url = f'https://onefootball.com/{a}'
         response = requests.get(url)
         soup = BeautifulSoup(response.content, 'html.parser')
+        leaguepage = a[:-6]
+        lpageresponse = requests.get(f'https://onefootball.com/{leaguepage}')
+        lpagesoup = BeautifulSoup(lpageresponse.content, 'html.parser')
+        leaguelogo = lpagesoup.find('img', class_='EntityTitle_logo__WHQzH')
+        leaguelogo = get_image_string(leaguelogo['src'])
+        
         rows = soup.select('a.Standing_standings__rowGrid__45OOd')
         
         compname = allleagues1[index]
@@ -56,10 +69,15 @@ def getstandings(team):
             })
         allstandings.append({
             'competition': compname, 
+            'logo':leaguelogo,
             'standings': standings
         })
 
     return jsonify(allstandings)
+
+
+
+
 
 
 if __name__ == '__main__':

@@ -31,7 +31,12 @@ def getstandings(team):
     league2 = soup.find_all('a', class_='title-7-medium LinkWithArrow_container__AzozQ')
     allleagues1.append(league2[0].text)
     allleagues.append(league2[0]['href'])
+    try {
     allleagues = [allleagues[1], allleagues[0]]
+    }
+    else {
+    allleagues=[allleagues[0]
+    }
     standings = []
     allstandings = []
     for index, a in enumerate(allleagues):
